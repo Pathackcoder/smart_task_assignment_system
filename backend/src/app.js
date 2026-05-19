@@ -13,27 +13,10 @@ const publicDir = path.join(__dirname, '..', 'public');
 
 app.use(express.static(publicDir));
 
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://localhost:5175'
-].filter(Boolean);
-
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error('Not allowed by CORS'));
-    }
-  })
-);
+app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({ message: 'Smart Task Assignment API is running' });
 });
 
